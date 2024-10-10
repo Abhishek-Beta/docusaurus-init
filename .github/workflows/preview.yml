@@ -27,7 +27,7 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
-          preview-branch: main
+          preview-branch: main # Ensure it deploys to the main branch
           umbrella-dir: pr-preview
           action: auto
 
@@ -36,6 +36,7 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
+          preview-branch: main # Deploy to main branch
           action: deploy
 
       - name: Remove preview (PR closed but not merged)
@@ -43,4 +44,5 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
+          preview-branch: main # Remove from main branch
           action: remove
