@@ -20,6 +20,10 @@ jobs:
       - name: Set preview base URL
         if: ${{ github.event.action != 'closed' }}
         run: echo "BASE_URL=/pr-preview/" >> $GITHUB_ENV
+        
+      - name: Set up Environment Variables
+        run: echo "DEPLOY_ENV=preview" >> $GITHUB_ENV
+        run: echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
 
       - name: Install and Build
         if: ${{ github.event.action != 'closed' }} # Skip build if the PR has been closed
