@@ -37,6 +37,6 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
-          preview-branch: main
+          preview-branch: preview/${{ github.event.pull_request.number }} # Match the PR preview branch
           umbrella-dir: pr-preview
           action: remove
