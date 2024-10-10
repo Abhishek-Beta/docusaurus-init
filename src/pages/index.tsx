@@ -24,8 +24,6 @@ function HomepageHeader() {
             Docusaurus Tutorial - 5min ⏱️
           </Link>
         </div>
-        <h1>This is part to test Deploy PR Preview</h1>
-        <h2>Another check for PR Preview</h2>
       </div>
     </header>
   );
