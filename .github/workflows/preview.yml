@@ -18,25 +18,29 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install and Build
-        if: ${{ github.event.action != 'closed' }} # You might want to skip the build if the PR has been closed
+        if: ${{ github.event.action != 'closed' }} # Skip build if the PR has been closed
         run: |
           npm install
           npm run build
 
-      - name: Deploy preview
+      - name: Deploy preview (Auto)
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
           preview-branch: main
           umbrella-dir: pr-preview
           action: auto
-      - uses: rossjrw/pr-preview-action@v1
-        if: ${{ contains(['opened', 'reopened', 'synchronize'], github.event.action) }}
+
+      - name: Deploy preview (PR opened/reopened/synchronize)
+        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize' }}
+        uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
           action: deploy
-      - uses: rossjrw/pr-preview-action@v1
+
+      - name: Remove preview (PR closed but not merged)
         if: ${{ github.event.action == 'closed' && !github.event.pull_request.merged }}
+        uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
           action: remove
