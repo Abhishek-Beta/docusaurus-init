@@ -21,7 +21,9 @@ jobs:
           cache: npm
           folder: .
           branch: main
-          clean-exclude: pr-preview
+
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
           force: false
 
       - name: Install dependencies
