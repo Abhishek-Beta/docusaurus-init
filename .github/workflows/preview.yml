@@ -17,6 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set preview base URL
+        if: ${{ github.event.action != 'closed' }}
+        run: echo "BASE_URL=/pr-preview/" >> $GITHUB_ENV
+
       - name: Install and Build
         if: ${{ github.event.action != 'closed' }} # Skip build if the PR has been closed
         run: |
