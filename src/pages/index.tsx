@@ -25,7 +25,6 @@ function HomepageHeader() {
           </Link>
         </div>
         <h1>This is part of Deploy PR Preview</h1>
-        <h2>Test to check for PR Preview integration</h2>
       </div>
     </header>
   );
