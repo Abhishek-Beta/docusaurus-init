@@ -20,10 +20,11 @@ jobs:
       - name: Set preview base URL
         if: ${{ github.event.action != 'closed' }}
         run: echo "BASE_URL=/pr-preview/" >> $GITHUB_ENV
-        
+
       - name: Set up Environment Variables
-        run: echo "DEPLOY_ENV=preview" >> $GITHUB_ENV
-        run: echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+        run: |
+          echo "DEPLOY_ENV=preview" >> $GITHUB_ENV
+          echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
 
       - name: Install and Build
         if: ${{ github.event.action != 'closed' }} # Skip build if the PR has been closed
@@ -44,13 +45,4 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
-          preview-branch: main # Deploy to main branch
-          action: deploy
-
-      - name: Remove preview (PR closed but not merged)
-        if: ${{ github.event.action == 'closed' && !github.event.pull_request.merged }}
-        uses: rossjrw/pr-preview-action@v1
-        with:
-          source-dir: ./build/
-          preview-branch: main # Remove from main branch
-          action: remove
+          preview-branch: main #
