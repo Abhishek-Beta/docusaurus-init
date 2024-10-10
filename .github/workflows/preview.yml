@@ -8,41 +8,33 @@ on:
       - synchronize
       - closed
 
-concurrency: preview-${{ github.ref }}
-
 jobs:
   deploy-preview:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set preview base URL
-        if: ${{ github.event.action != 'closed' }}
-        run: echo "BASE_URL=/pr-preview/" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: npm install
 
-      - name: Set up Environment Variables
-        run: |
-          echo "DEPLOY_ENV=preview" >> $GITHUB_ENV
-          echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+      - name: Build Docusaurus
+        run: npm run build
 
-      - name: Install and Build
-        if: ${{ github.event.action != 'closed' }} # Skip build if the PR has been closed
-        run: |
-          npm install
-          npm run build
-
-      - name: Deploy preview (Auto)
+      - name: Deploy preview
+        if: github.event.action != 'closed'
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
-          preview-branch: main # Ensure it deploys to the main branch
+          preview-branch: main
           umbrella-dir: pr-preview
-          action: auto
+          action: deploy
 
-      - name: Deploy preview (PR opened/reopened/synchronize)
-        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize' }}
+      - name: Remove PR Preview
+        if: github.event.action == 'closed' && !github.event.pull_request.merged
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
-          preview-branch: main #
+          preview-branch: main
+          umbrella-dir: pr-preview
+          action: remove

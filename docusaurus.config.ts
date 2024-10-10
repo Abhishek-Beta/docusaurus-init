@@ -2,8 +2,6 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
-const isPreview = process.env.DEPLOY_ENV === "preview";
-
 const config: Config = {
   title: "My Site",
   tagline: "Dinosaurs are cool",
@@ -13,9 +11,7 @@ const config: Config = {
   url: "https://Abhishek-Beta.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: isPreview
-    ? `/docusaurus-init/pr-preview/pr-${process.env.PR_NUMBER}/`
-    : "/docusaurus-init/",
+  baseUrl: "/docusaurus-init/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
