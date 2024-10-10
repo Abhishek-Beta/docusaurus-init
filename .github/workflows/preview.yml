@@ -28,7 +28,7 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./build/
-          preview-branch: main
+          preview-branch: preview/${{ github.event.pull_request.number }}
           umbrella-dir: pr-preview
           action: deploy
 
